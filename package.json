@@ -1,0 +1,11 @@
+{
+  "name": "socket_chat",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Johnyworld/socket-chat",
+  "author": "Johny Kim <johnyworld@naver.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
