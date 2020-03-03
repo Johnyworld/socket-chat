@@ -3,10 +3,18 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
+var numOfUsers = 0;
+
 app.use(express.static(__dirname + '/public'));
 
 io.on('connection', (socket) => {
-    console.log('손님 입장');
+    socket.on('new user', () => {
+        console.log(numOfUsers);
+        ++numOfUsers;
+        console.log(numOfUsers);
+        // broadcas.emit은 자신을 제외한 다른 곳에게 송출하는 것.
+        socket.broadcast.emit('user joined', numOfUsers);
+    });
 
     socket.on('chat message', (msg) => {
         io.emit('chat message', msg);
@@ -14,7 +22,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-        console.log('들어올 땐 맘대로지만 나갈 땐 아니란다.')
+        --numOfUsers;
+        socket.broadcast.emit('user left', numOfUsers)
     });
 
 });
